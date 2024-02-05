@@ -14,7 +14,7 @@ const DefaultLineWrapper = memo(LineWrapper);
 const DefaultWordWrapper = memo(WordWrapper);
 const DefaultLetterWrapper = memo(LetterWrapper);
 
-export const SplitTextInner: FC<SplitTextProps> = forwardRef(
+export const SplitTextInner = forwardRef<HTMLElement, SplitTextProps>(
   function SplitTextInner(
     {
       children,

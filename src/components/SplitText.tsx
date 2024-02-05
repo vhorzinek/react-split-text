@@ -2,10 +2,8 @@ import React, {
   useState,
   ComponentType,
   CSSProperties,
-  FC,
   useEffect,
   forwardRef,
-  useCallback,
 } from 'react';
 import {
   LineWrapperProp,
@@ -16,6 +14,7 @@ import { SplitTextInner } from './SplitTextInner';
 import { debounce } from '../utils';
 
 export interface SplitTextProps<T = any> {
+  children: React.ReactNode;
   /**
    * className to forward to the container.
    * @type string
@@ -53,22 +52,21 @@ export interface SplitTextProps<T = any> {
   extraProps?: T;
 }
 
-export const SplitText: FC<SplitTextProps> = forwardRef(function SplitText(
-  { children, ...props },
-  ref
-) {
-  const [key, setKey] = useState(0);
+export const SplitText = forwardRef<HTMLElement, SplitTextProps>(
+  function SplitText({ children, ...props }, ref) {
+    const [key, setKey] = useState(0);
 
-  const onResize = debounce(() => setKey(v => v + 1), 300);
+    const onResize = debounce(() => setKey(v => v + 1), 300);
 
-  useEffect(() => {
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
+    useEffect(() => {
+      window.addEventListener('resize', onResize);
+      return () => window.removeEventListener('resize', onResize);
+    }, []);
 
-  return (
-    <SplitTextInner key={key} {...props} ref={ref}>
-      {children}
-    </SplitTextInner>
-  );
-});
+    return (
+      <SplitTextInner key={key} {...props} ref={ref}>
+        {children}
+      </SplitTextInner>
+    );
+  }
+);
